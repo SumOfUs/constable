@@ -36,8 +36,26 @@ defmodule ConstableWeb.AnnouncementController do
     |> render("index.html")
   end
 
+
   def show(conn, %{"id" => id}) do
-    announcement = Repo.get!(Announcement.with_announcement_list_assocs, id)
+    query = Announcement.with_announcement_list_assocs
+
+    announcement = query_by_id_or_slug(query, id)
+
+    render_announcement(announcement, conn)
+  end
+
+  def query_by_id_or_slug(query, id_or_slug) do
+    case Integer.parse(id_or_slug) do
+      {number, ""} ->
+        Repo.get!(query, number)
+
+      _ ->
+        Repo.get_by!(query, slug: id_or_slug)
+    end
+  end
+
+  defp render_announcement(announcement, conn) do
     comment = Comment.create_changeset(%{})
     subscription = Repo.get_by(Subscription,
       announcement_id: announcement.id,
@@ -80,7 +98,8 @@ defmodule ConstableWeb.AnnouncementController do
   end
 
   def edit(conn, %{"id" => id}) do
-    announcement = Repo.get!(Announcement, id) |> Repo.preload([:interests])
+    announcement = query_by_id_or_slug(Announcement, id)
+                   |> Repo.preload([:interests])
 
     conn
     |> page_title("Edit Announcement")
@@ -89,7 +108,7 @@ defmodule ConstableWeb.AnnouncementController do
 
   def update(conn, %{"id" => id, "announcement" => announcement_params}) do
     current_user = conn.assigns.current_user
-    announcement = Repo.get!(Announcement, id)
+    announcement = query_by_id_or_slug(Announcement, id)
 
     {interest_names, announcement_params} = extract_interest_names(announcement_params)
 

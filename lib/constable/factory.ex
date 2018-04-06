@@ -50,6 +50,7 @@ defmodule Constable.Factory do
   def announcement_factory do
     %Constable.Announcement{
       title: sequence(:email, &"Post Title#{&1}"),
+      slug: sequence(:email, &"post-title-#{&1}"),
       body: "Post Body",
       user: build(:user)
     }

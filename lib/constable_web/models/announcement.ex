@@ -10,6 +10,7 @@ defmodule Constable.Announcement do
     field :title
     field :body
     field :last_discussed_at, :utc_datetime, autogenerate: {DateTime, :utc_now, []}
+    field :slug
     timestamps()
 
     belongs_to :user, User
@@ -26,9 +27,25 @@ defmodule Constable.Announcement do
   end
 
   def create_changeset(announcement, params) do
+    # %Announcement{}, %{title: nil}
     announcement
     |> cast(params, ~w(title body user_id))
     |> validate_required([:title, :body])
+    |> generate_slug()
+    |> unique_constraint(:slug)
+  end
+
+  defp generate_slug(changeset) do
+    case get_change(changeset, :title) do
+      nil -> changeset
+      title -> put_change(changeset, :slug, slugify(title))
+    end
+  end
+
+  def slugify(title) do
+    title
+    |> String.replace(" ", "-")
+    |> String.downcase()
   end
 
   def last_discussed_first(query \\ __MODULE__) do

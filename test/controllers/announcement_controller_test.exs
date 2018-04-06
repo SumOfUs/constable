@@ -29,6 +29,14 @@ defmodule ConstableWeb.AnnouncementControllerTest do
     refute html_response(conn, :ok) =~ "Does not show up"
   end
 
+  test "#show takes a slug and renders markdown as html", %{conn: conn} do
+    announcement = insert(:announcement, body: "# Hello")
+
+    conn = get conn, announcement_path(conn, :show, announcement.slug)
+
+    assert html_response(conn, :ok) =~ "<h1>Hello</h1>"
+  end
+
   test "#show renders markdown as html", %{conn: conn} do
     announcement = insert(:announcement, body: "# Hello")
 
