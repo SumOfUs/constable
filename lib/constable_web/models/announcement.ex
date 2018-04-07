@@ -6,6 +6,8 @@ defmodule Constable.Announcement do
   alias Constable.Interest
   alias Constable.AnnouncementInterest
 
+  @derive {Phoenix.Param, key: :slug}
+
   schema "announcements" do
     field :title
     field :body
@@ -27,7 +29,6 @@ defmodule Constable.Announcement do
   end
 
   def create_changeset(announcement, params) do
-    # %Announcement{}, %{title: nil}
     announcement
     |> cast(params, ~w(title body user_id))
     |> validate_required([:title, :body])
@@ -42,7 +43,7 @@ defmodule Constable.Announcement do
     end
   end
 
-  def slugify(title) do
+  defp slugify(title) do
     title
     |> String.replace(" ", "-")
     |> String.downcase()
