@@ -5,6 +5,6 @@ set -e
 if [ -z "$1" ]; then
   echo "Specify an environment (staging|production)"
 else
-  heroku config:set BUILDPACK_URL="https://github.com/HashNuke/heroku-buildpack-elixir.git" --app constable-api-$1
-  git push $1 master; heroku run mix ecto.migrate --app constable-api-$1
+  heroku config:set BUILDPACK_URL="https://github.com/HashNuke/heroku-buildpack-elixir.git" --app sumofus-constable-api-$1
+  git push $1 master; heroku run mix ecto.migrate --app sumofus-constable-api-$1
 fi

@@ -5,5 +5,5 @@ set -e
 if [ -z "$1" ]; then
   iex -S mix
 else
-  heroku run iex -S mix --app constable-api-$1
+  heroku run iex -S mix --app sumofus-constable-api-$1
 fi
