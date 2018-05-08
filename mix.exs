@@ -68,7 +68,7 @@ defmodule Constable.Mixfile do
       {:phoenix_live_reload, "~> 1.1.5"},
       {:phoenix, "~> 1.3.0"},
       {:phoenix_html, "~> 2.4"},
-      {:postgrex, ">= 0.0.0"},
+      {:postgrex, ">= 0.13.5"},
       {:quick_alias, "~> 0.1.0"},
       {:scrivener_ecto, "~> 1.1"},
       {:secure_random, "~> 0.1"},
