@@ -30,8 +30,8 @@ config :constable, Constable.Repo,
   url: System.get_env("DATABASE_URL")
 
 config :constable, Constable.Mailer,
-  adapter: Bamboo.MandrillAdapter,
-  api_key: System.get_env("MANDRILL_KEY")
+  adapter: Bamboo.SendgridAdapter,
+  api_key: System.get_env("SENDGRID_API_KEY")
 
 config :honeybadger, :environment_name, System.get_env("HONEYBADGER_ENV")
 
