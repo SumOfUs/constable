@@ -60,6 +60,6 @@ defmodule ConstableWeb.EmailReplyTest do
       build(:email_reply_event, msg: email_reply_message)
       |> List.wrap
       |> Poison.encode!
-    build(:email_reply_webhook, mandrill_events: reply_events)
+    build(:email_reply_webhook, bamboo_events: reply_events)
   end
 end

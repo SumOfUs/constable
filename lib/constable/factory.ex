@@ -18,7 +18,7 @@ defmodule Constable.Factory do
 
   def email_reply_webhook_factory do
     %{
-      mandrill_events: [build(:email_reply_event)]
+      bamboo_events: [build(:email_reply_event)]
     }
   end
 

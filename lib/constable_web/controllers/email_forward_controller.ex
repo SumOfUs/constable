@@ -1,7 +1,7 @@
 defmodule ConstableWeb.EmailForwardController do
   use Constable.Web, :controller
 
-  def create(conn, %{"mandrill_events" => messages}) do
+  def create(conn, %{"bamboo_events" => messages}) do
     messages
     |> Poison.decode!
     |> forward_emails_to_admins

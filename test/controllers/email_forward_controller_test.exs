@@ -16,7 +16,7 @@ defmodule ConstableWeb.EmailForwardControllerTest do
     conn = post(conn, email_forward_path(Endpoint, :create), forwarded_emails)
 
     assert conn.status == 200
-    message = forwarded_emails.mandrill_events |> Poison.decode! |> List.first |> Map.fetch!("msg")
+    message = forwarded_emails.bamboo_events |> Poison.decode! |> List.first |> Map.fetch!("msg")
     assert Emails.forwarded_email(message).to == ~w(1@foo.com 2@foo.com)
     assert_delivered_email Emails.forwarded_email(message)
   end
@@ -28,6 +28,6 @@ defmodule ConstableWeb.EmailForwardControllerTest do
       build(:email_reply_event, msg: email_reply_message)
       |> List.wrap
       |> Poison.encode!
-    build(:email_reply_webhook, mandrill_events: reply_events)
+    build(:email_reply_webhook, bamboo_events: reply_events)
   end
 end

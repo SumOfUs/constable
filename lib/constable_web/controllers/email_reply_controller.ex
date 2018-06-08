@@ -4,7 +4,7 @@ defmodule ConstableWeb.EmailReplyController do
   alias Constable.User
   alias Constable.EmailReplyParser
 
-  def create(conn, %{"mandrill_events" => messages}) do
+  def create(conn, %{"bamboo_events" => messages}) do
     messages
     |> Poison.decode!
     |> create_comments
