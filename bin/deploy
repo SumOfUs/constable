@@ -2,9 +2,25 @@
 
 set -e
 
-if [ -z "$1" ]; then
-  echo "Specify an environment (staging|production)"
-else
-  heroku config:set BUILDPACK_URL="https://github.com/HashNuke/heroku-buildpack-elixir.git" --app sumofus-constable-api-$1
-  git push $1 master; heroku run mix ecto.migrate --app sumofus-constable-api-$1
+if [ -z "$APP_PREFIX" ]; then
+  echo "You must specify an APP_PREFIX"
+  exit 1
 fi
+case "$1" in
+  staging)
+    APP_NAME=$APP_PREFIX-staging
+    ;;
+  production)
+    APP_NAME=$APP_PREFIX-production
+    ;;
+  *)
+    echo "Specify an environment (staging|production)"
+    exit 1
+esac
+
+echo "Deploying $1 to $APP_NAME"
+
+heroku buildpacks:set https://github.com/HashNuke/heroku-buildpack-elixir.git --app $APP_NAME || true
+heroku buildpacks:add https://github.com/gjaldon/heroku-buildpack-phoenix-static --app $APP_NAME || true
+
+git push $1 master; heroku run mix ecto.migrate --app $APP_NAME
