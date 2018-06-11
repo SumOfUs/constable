@@ -53,11 +53,11 @@ npm install
 if [ -z "$CI" ]; then
   # Set up Heroku
   echo "Setting up Heroku and git remotes"
-  heroku join --app sumofus-constable-api-staging || true
-  heroku git:remote -r staging -a sumofus-constable-api-staging || true
+  heroku join --app sumofus-constable-staging || true
+  heroku git:remote -r staging -a sumofus-constable-staging || true
 
-  heroku join --app sumofus-constable-api-production || true
-  heroku git:remote -r production -a sumofus-constable-api-production || true
+  heroku join --app sumofus-constable-production || true
+  heroku git:remote -r production -a sumofus-constable-production || true
 
   if ! grep -E -q 'CLIENT_ID |CLIENT_SECRET' .env; then
     heroku config --shell --remote staging | grep -E 'CLIENT_ID|CLIENT_SECRET' >> .env
